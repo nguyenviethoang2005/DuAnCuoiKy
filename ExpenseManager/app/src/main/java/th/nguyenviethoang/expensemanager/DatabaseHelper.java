@@ -46,115 +46,165 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ===== INSERT =====
     public long addTransaction(double amount, String category, String type, String note, String date) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_AMOUNT, amount);
-        values.put(COL_CATEGORY, category);
-        values.put(COL_TYPE, type);
-        values.put(COL_NOTE, note);
-        values.put(COL_DATE, date);
-        return db.insert(TABLE_TRANSACTION, null, values);
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(COL_AMOUNT, amount);
+            values.put(COL_CATEGORY, category);
+            values.put(COL_TYPE, type);
+            values.put(COL_NOTE, note);
+            values.put(COL_DATE, date);
+            return db.insert(TABLE_TRANSACTION, null, values);
+        } finally {
+            if (db != null) db.close(); // ✅ ĐÓNG DB
+        }
     }
 
     // ===== GET ALL TRANSACTIONS =====
     public List<Transaction> getAllTransactions() {
         List<Transaction> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSACTION + " ORDER BY " + COL_DATE + " DESC", null);
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
 
-        if (cursor.moveToFirst()) {
-            do {
-                Transaction t = new Transaction();
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSACTION + " ORDER BY " + COL_ID + " DESC", null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Transaction t = new Transaction();
+                    t.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)));
+                    t.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COL_AMOUNT)));
+                    t.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY)));
+                    t.setType(cursor.getString(cursor.getColumnIndexOrThrow(COL_TYPE)));
+                    t.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COL_NOTE)));
+                    t.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)));
+                    list.add(t);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
+            if (db != null) db.close(); // ✅ ĐÓNG DB
+        }
+
+        return list;
+    }
+
+    // ===== GET TRANSACTION BY ID =====
+    public Transaction getTransactionById(int id) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        Transaction t = null;
+
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.query(
+                    TABLE_TRANSACTION,
+                    null,
+                    COL_ID + "=?",
+                    new String[]{String.valueOf(id)},
+                    null, null, null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                t = new Transaction();
                 t.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)));
                 t.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COL_AMOUNT)));
                 t.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY)));
                 t.setType(cursor.getString(cursor.getColumnIndexOrThrow(COL_TYPE)));
                 t.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COL_NOTE)));
                 t.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)));
-                list.add(t);
-            } while (cursor.moveToNext());
+            }
+        } finally {
+            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
+            if (db != null) db.close(); // ✅ ĐÓNG DB
         }
 
-        cursor.close();
-        return list;
-    }
-
-    // ===== GET TRANSACTION BY ID =====
-    public Transaction getTransactionById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(
-                TABLE_TRANSACTION,
-                null,
-                COL_ID + "=?",
-                new String[]{String.valueOf(id)},
-                null, null, null
-        );
-
-        if (cursor != null && cursor.moveToFirst()) {
-            Transaction t = new Transaction();
-            t.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)));
-            t.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COL_AMOUNT)));
-            t.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY)));
-            t.setType(cursor.getString(cursor.getColumnIndexOrThrow(COL_TYPE)));
-            t.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COL_NOTE)));
-            t.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)));
-            cursor.close();
-            return t;
-        }
-        return null;
+        return t;
     }
 
     // ===== DELETE =====
     public void deleteTransaction(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_TRANSACTION, COL_ID + "=?", new String[]{String.valueOf(id)});
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+            db.delete(TABLE_TRANSACTION, COL_ID + "=?", new String[]{String.valueOf(id)});
+        } finally {
+            if (db != null) db.close(); // ✅ ĐÓNG DB
+        }
     }
 
     // ===== TOTAL BY TYPE =====
     public double getTotalByType(String type) {
         double total = 0;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=?",
-                new String[]{type});
-        if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
-        cursor.close();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery(
+                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=?",
+                    new String[]{type});
+            if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
+        } finally {
+            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
+            if (db != null) db.close(); // ✅ ĐÓNG DB
+        }
+
         return total;
     }
 
     // ===== TOTAL BY TYPE AND DATE LIKE =====
     public double getTotalByTypeAndDateLike(String type, String date) {
         double total = 0;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " LIKE ?",
-                new String[]{type, date + "%"});
-        if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
-        cursor.close();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery(
+                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " LIKE ?",
+                    new String[]{type, date + "%"});
+            if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
+        } finally {
+            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
+            if (db != null) db.close(); // ✅ ĐÓNG DB
+        }
+
         return total;
     }
 
     // ===== TOTAL BY TYPE AND LIST OF DATES =====
     public double getTotalByTypeAndDates(String type, List<String> dates) {
         double total = 0;
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
         if (dates.isEmpty()) return 0;
 
-        StringBuilder placeholders = new StringBuilder();
-        String[] args = new String[dates.size() + 1];
-        args[0] = type;
-        for (int i = 0; i < dates.size(); i++) {
-            placeholders.append("?");
-            if (i != dates.size() - 1) placeholders.append(",");
-            args[i + 1] = dates.get(i);
+        try {
+            db = this.getReadableDatabase();
+
+            StringBuilder placeholders = new StringBuilder();
+            String[] args = new String[dates.size() + 1];
+            args[0] = type;
+            for (int i = 0; i < dates.size(); i++) {
+                placeholders.append("?");
+                if (i != dates.size() - 1) placeholders.append(",");
+                args[i + 1] = dates.get(i);
+            }
+
+            cursor = db.rawQuery(
+                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " IN (" + placeholders + ")",
+                    args
+            );
+            if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
+        } finally {
+            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
+            if (db != null) db.close(); // ✅ ĐÓNG DB
         }
 
-        Cursor cursor = db.rawQuery(
-                "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " IN (" + placeholders + ")",
-                args
-        );
-        if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
-        cursor.close();
         return total;
     }
 }

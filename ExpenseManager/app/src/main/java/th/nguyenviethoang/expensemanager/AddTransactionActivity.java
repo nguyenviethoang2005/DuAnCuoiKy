@@ -39,7 +39,6 @@ public class AddTransactionActivity extends AppCompatActivity {
         rgType = findViewById(R.id.rgType);
         btnSave = findViewById(R.id.btnSave);
 
-        // Date mặc định
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         etDate.setText(sdf.format(calendar.getTime()));
 
@@ -53,7 +52,6 @@ public class AddTransactionActivity extends AppCompatActivity {
             }
         });
 
-        // Mặc định
         loadCategories("Chi tiêu");
 
         btnSave.setOnClickListener(v -> saveTransaction());
@@ -76,7 +74,6 @@ public class AddTransactionActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // ===== CATEGORY TĨNH (KHÔNG DB) =====
     private void loadCategories(String type) {
         List<String> categoryNames = new ArrayList<>();
 
@@ -109,12 +106,30 @@ public class AddTransactionActivity extends AppCompatActivity {
         String date = etDate.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString();
 
+        // ✅ VALIDATION
         if (amountStr.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập số tiền", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        double amount = Double.parseDouble(amountStr);
+        if (date.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn ngày", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ✅ TRY-CATCH XỬ LÝ LỖI PARSE
+        double amount;
+        try {
+            amount = Double.parseDouble(amountStr);
+            if (amount <= 0) {
+                Toast.makeText(this, "Số tiền phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Số tiền không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String type = rgType.getCheckedRadioButtonId() == R.id.rbExpense
                 ? "Chi tiêu"
                 : "Thu nhập";

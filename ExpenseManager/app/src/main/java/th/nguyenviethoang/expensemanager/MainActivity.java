@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,8 +70,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(Transaction transaction) {
-                dbHelper.deleteTransaction(transaction.getId());
-                loadData();
+                // ✅ THÊM DIALOG XÁC NHẬN XÓA
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Xác nhận xóa")
+                        .setMessage("Bạn có chắc muốn xóa giao dịch này?")
+                        .setPositiveButton("Xóa", (dialog, which) -> {
+                            dbHelper.deleteTransaction(transaction.getId());
+                            loadData();
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
             }
         });
 

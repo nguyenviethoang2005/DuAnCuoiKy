@@ -20,7 +20,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     private List<Transaction> list;
     private OnItemClickListener listener;
 
-    // ===== INTERFACE CLICK =====
     public interface OnItemClickListener {
         void onItemClick(Transaction transaction);
         void onDeleteClick(Transaction transaction);
@@ -50,7 +49,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         NumberFormat nf = NumberFormat.getInstance(new Locale("vi", "VN"));
         holder.tvAmount.setText(nf.format(t.getAmount()) + " đ");
 
-        // ===== SET ICON THEO DANH MỤC =====
+        // ✅ SET ICON ĐẦY ĐỦ
         holder.tvIcon.setText(getIconByCategory(t.getCategory()));
 
         // Màu tiền
@@ -62,10 +61,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
                     context.getResources().getColor(android.R.color.holo_green_dark));
         }
 
-        // CLICK ITEM
         holder.itemView.setOnClickListener(v -> listener.onItemClick(t));
-
-        // CLICK DELETE
         holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(t));
     }
 
@@ -74,27 +70,39 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         return list.size();
     }
 
-    // ===== MAP ICON =====
+    // ✅ BỔ SUNG ICON ĐẦY ĐỦ
     private String getIconByCategory(String category) {
         if (category == null) return "💰";
 
         switch (category) {
+            // Chi tiêu
             case "Ăn uống":
                 return "🍔";
-            case "Di chuyển":
-                return "🚗";
             case "Mua sắm":
                 return "🛒";
+            case "Di chuyển":
+                return "🚗";
             case "Giải trí":
                 return "🎮";
+            case "Hóa đơn":
+                return "💡";
+
+            // Thu nhập
             case "Lương":
                 return "💵";
+            case "Thưởng":
+                return "🎁";
+            case "Đầu tư":
+                return "📈";
+
+            // Mặc định
+            case "Khác":
+                return "📦";
             default:
                 return "💰";
         }
     }
 
-    // ===== VIEW HOLDER =====
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvIcon, tvCategory, tvAmount, tvDate;
@@ -103,7 +111,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // ⚠️ ID ĐÚNG THEO XML
             tvIcon = itemView.findViewById(R.id.tvCategoryIcon);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvAmount = itemView.findViewById(R.id.tvAmount);

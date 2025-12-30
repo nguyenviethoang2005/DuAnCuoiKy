@@ -32,6 +32,9 @@ public class StatisticsActivity extends AppCompatActivity {
         tvStatBalance = findViewById(R.id.tvStatBalance);
         pieChart      = findViewById(R.id.pieChart);
 
+        // ✅ THÊM NÚT BACK
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
         dbHelper = new DatabaseHelper(this);
 
         loadStatistics();
@@ -42,19 +45,35 @@ public class StatisticsActivity extends AppCompatActivity {
         double totalIncome  = dbHelper.getTotalByType("Thu nhập");
         double balance = totalIncome - totalExpense;
 
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        NumberFormat nf = NumberFormat.getInstance(new Locale("vi", "VN"));
 
-        tvStatExpense.setText("Tổng chi tiêu: " + nf.format(totalExpense));
-        tvStatIncome.setText("Tổng thu nhập: " + nf.format(totalIncome));
-        tvStatBalance.setText("Số dư: " + nf.format(balance));
+        tvStatExpense.setText("Chi tiêu: " + nf.format(totalExpense) + " đ");
+        tvStatIncome.setText("Thu nhập: " + nf.format(totalIncome) + " đ");
+        tvStatBalance.setText("Số dư: " + nf.format(balance) + " đ");
+
+        // ✅ SET MÀU CHO SỐ DƯ
+        if (balance < 0) {
+            tvStatBalance.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            tvStatBalance.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        }
 
         setupPieChart(totalExpense, totalIncome);
     }
 
     private void setupPieChart(double expense, double income) {
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry((float) expense, "Chi tiêu"));
-        entries.add(new PieEntry((float) income, "Thu nhập"));
+
+        // ✅ CHỈ THÊM NẾU CÓ GIÁ TRỊ
+        if (expense > 0) entries.add(new PieEntry((float) expense, "Chi tiêu"));
+        if (income > 0) entries.add(new PieEntry((float) income, "Thu nhập"));
+
+        if (entries.isEmpty()) {
+            pieChart.clear();
+            pieChart.setNoDataText("Chưa có dữ liệu thống kê");
+            pieChart.invalidate();
+            return;
+        }
 
         PieDataSet dataSet = new PieDataSet(entries, "Thống kê");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
