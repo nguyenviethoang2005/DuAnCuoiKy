@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- ✅ THÊM HEADER VỚI NÚT BACK -->
+    <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +31,17 @@
             android:textColor="#FFFFFF"
             android:layout_marginStart="12dp"/>
     </LinearLayout>
+
+    <!-- ✅ TABS -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:tabSelectedTextColor="#667eea"
+        app:tabTextColor="#666666"
+        app:tabIndicatorColor="#667eea"
+        android:elevation="2dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -108,17 +119,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Biểu đồ tổng quan"
+                        android:text="Biểu đồ"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
                         android:layout_marginBottom="12dp"/>
 
-                    <!-- PieChart -->
+                    <!-- ✅ PieChart - Tổng quan -->
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/pieChart"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="300dp"
+                        android:visibility="visible"/>
+
+                    <!-- ✅ BarChart - Theo tháng -->
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
