@@ -23,7 +23,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+
         dbHelper = DatabaseHelper.getInstance(this);
 
         int transactionId = getIntent().getIntExtra("transaction_id", -1);

@@ -55,7 +55,7 @@ public class CategoriesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
 
-    // ===== DATA =====
+
     private void loadExpenseCategories() {
         categoryList.clear();
         categoryList.add(new Category("Ăn uống", "🍔"));

@@ -32,7 +32,7 @@
             android:layout_marginStart="12dp"/>
     </LinearLayout>
 
-    <!-- ✅ TABS -->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutStats"
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- CARD THỐNG KÊ -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Thu nhập -->
+
                     <TextView
                         android:id="@+id/tvStatIncome"
                         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:textColor="@android:color/holo_green_dark"
                         android:padding="8dp" />
 
-                    <!-- Chi tiêu -->
+
                     <TextView
                         android:id="@+id/tvStatExpense"
                         android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                         android:textColor="@android:color/holo_red_dark"
                         android:padding="8dp" />
 
-                    <!-- Số dư -->
+
                     <TextView
                         android:id="@+id/tvStatBalance"
                         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CARD BIỂU ĐỒ -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,14 +125,14 @@
                         android:textColor="#333333"
                         android:layout_marginBottom="12dp"/>
 
-                    <!-- ✅ PieChart - Tổng quan -->
+
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/pieChart"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:visibility="visible"/>
 
-                    <!-- ✅ BarChart - Theo tháng -->
+
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/barChart"
                         android:layout_width="match_parent"

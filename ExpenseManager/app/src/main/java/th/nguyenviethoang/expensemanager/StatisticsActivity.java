@@ -147,7 +147,7 @@ public class StatisticsActivity extends AppCompatActivity {
             monthlyExpense.put(monthKey, 0.0);
         }
 
-        // Tính tổng theo tháng
+
         for (Transaction t : allTransactions) {
             String transactionDate = t.getDate(); // dd/MM/yyyy
             if (transactionDate.length() >= 10) {
@@ -165,7 +165,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         setupBarChart(months, monthlyIncome, monthlyExpense);
 
-        // Cập nhật tổng cho 6 tháng gần nhất
+
         double totalIncome6Months = 0;
         double totalExpense6Months = 0;
 
@@ -210,7 +210,7 @@ public class StatisticsActivity extends AppCompatActivity {
         barChart.setData(data);
         barChart.groupBars(0, 0.3f, 0.05f);
 
-        // Cấu hình trục X
+
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(months));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

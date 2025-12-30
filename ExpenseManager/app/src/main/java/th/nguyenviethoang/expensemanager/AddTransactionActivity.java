@@ -29,7 +29,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
 
-        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+
         dbHelper = DatabaseHelper.getInstance(this);
         calendar = Calendar.getInstance();
 

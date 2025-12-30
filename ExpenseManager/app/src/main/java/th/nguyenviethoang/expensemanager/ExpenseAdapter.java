@@ -49,7 +49,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         NumberFormat nf = NumberFormat.getInstance(new Locale("vi", "VN"));
         holder.tvAmount.setText(nf.format(t.getAmount()) + " đ");
 
-        // ✅ SET ICON ĐẦY ĐỦ
+
         holder.tvIcon.setText(getIconByCategory(t.getCategory()));
 
         // Màu tiền
@@ -70,7 +70,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         return list.size();
     }
 
-    // ✅ BỔ SUNG ICON ĐẦY ĐỦ
+
     private String getIconByCategory(String category) {
         if (category == null) return "💰";
 

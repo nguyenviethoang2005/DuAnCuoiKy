@@ -17,7 +17,7 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- ICON DANH MỤC -->
+
         <TextView
             android:id="@+id/tvCategoryIcon"
             android:layout_width="40dp"
@@ -27,7 +27,7 @@
             android:textSize="22sp"
             android:background="@drawable/circle_background"/>
 
-        <!-- THÔNG TIN -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- SỐ TIỀN + XOÁ -->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

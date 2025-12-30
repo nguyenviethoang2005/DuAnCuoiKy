@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // ===== INSERT =====
+
     public long addTransaction(double amount, String category, String type, String note, String date) {
         SQLiteDatabase db = null;
         try {
@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ===== GET ALL TRANSACTIONS =====
+
     public List<Transaction> getAllTransactions() {
         List<Transaction> list = new ArrayList<>();
         SQLiteDatabase db = null;
@@ -101,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    // ===== GET TRANSACTION BY ID =====
+
     public Transaction getTransactionById(int id) {
         SQLiteDatabase db = null;
         Cursor cursor = null;
@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return t;
     }
 
-    // ===== DELETE =====
+
     public void deleteTransaction(int id) {
         SQLiteDatabase db = null;
         try {
@@ -145,7 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ===== TOTAL BY TYPE =====
+
     public double getTotalByType(String type) {
         double total = 0;
         SQLiteDatabase db = null;
@@ -165,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-    // ===== TOTAL BY TYPE AND DATE LIKE =====
+
     public double getTotalByTypeAndDateLike(String type, String date) {
         double total = 0;
         SQLiteDatabase db = null;

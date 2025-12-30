@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private void showCustomDatePicker() {
         Calendar calendar = Calendar.getInstance();
 
-        // Chọn ngày bắt đầu
+
         new DatePickerDialog(this, (view1, year1, month1, day1) -> {
             customStartDate = String.format("%02d/%02d/%d", day1, month1 + 1, year1);
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // Tính tổng từ danh sách đã lọc
+
         double income = 0;
         double expense = 0;
 

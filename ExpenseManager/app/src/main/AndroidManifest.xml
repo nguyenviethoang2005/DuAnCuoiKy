@@ -35,7 +35,7 @@
             android:name=".CategoriesActivity"
             android:parentActivityName=".MainActivity" />
 
-        <!-- ✅ THÊM ACTIVITY MỚI -->
+
         <activity
             android:name=".CategoryTransactionsActivity"
             android:parentActivityName=".CategoriesActivity" />
