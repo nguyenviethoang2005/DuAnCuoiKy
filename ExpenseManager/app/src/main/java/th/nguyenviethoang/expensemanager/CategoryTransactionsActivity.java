@@ -47,7 +47,7 @@ public class CategoryTransactionsActivity extends AppCompatActivity {
         List<Transaction> filteredTransactions = new ArrayList<>();
         double total = 0;
 
-        // Lọc giao dịch theo danh mục
+
         for (Transaction t : allTransactions) {
             if (t.getCategory().equals(categoryName)) {
                 filteredTransactions.add(t);

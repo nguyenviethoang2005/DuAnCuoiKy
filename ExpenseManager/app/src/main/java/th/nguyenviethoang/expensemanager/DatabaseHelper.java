@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_NOTE = "note";
     private static final String COL_DATE = "date";
 
-    // ✅ SINGLETON PATTERN
+
     private static DatabaseHelper instance;
 
     public static synchronized DatabaseHelper getInstance(Context context) {

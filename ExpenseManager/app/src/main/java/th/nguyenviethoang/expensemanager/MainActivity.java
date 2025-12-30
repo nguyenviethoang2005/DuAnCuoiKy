@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case "Tháng này":
-                    String currentMonth = transactionDate.substring(3, 10); // MM/yyyy
+                    String currentMonth = transactionDate.substring(3, 10);
                     String thisMonth = today.substring(3, 10);
                     if (currentMonth.equals(thisMonth)) {
                         filtered.add(t);
@@ -220,11 +220,11 @@ public class MainActivity extends AppCompatActivity {
                     if (transMonth.equals(lastMonth)) {
                         filtered.add(t);
                     }
-                    calendar.add(Calendar.MONTH, 1); // Reset
+                    calendar.add(Calendar.MONTH, 1);
                     break;
 
                 case "Năm này":
-                    String currentYear = transactionDate.substring(6, 10); // yyyy
+                    String currentYear = transactionDate.substring(6, 10);
                     String thisYear = today.substring(6, 10);
                     if (currentYear.equals(thisYear)) {
                         filtered.add(t);

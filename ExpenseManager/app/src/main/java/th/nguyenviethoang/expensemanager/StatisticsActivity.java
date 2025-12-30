@@ -149,9 +149,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
 
         for (Transaction t : allTransactions) {
-            String transactionDate = t.getDate(); // dd/MM/yyyy
+            String transactionDate = t.getDate();
             if (transactionDate.length() >= 10) {
-                String monthKey = transactionDate.substring(3, 10); // MM/yyyy
+                String monthKey = transactionDate.substring(3, 10);
 
                 if (months.contains(monthKey)) {
                     if (t.getType().equals("Thu nhập")) {

@@ -52,7 +52,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
         holder.tvIcon.setText(getIconByCategory(t.getCategory()));
 
-        // Màu tiền
+
         if (t.getType().equals("Chi tiêu")) {
             holder.tvAmount.setTextColor(
                     context.getResources().getColor(android.R.color.holo_red_dark));
@@ -75,7 +75,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         if (category == null) return "💰";
 
         switch (category) {
-            // Chi tiêu
+
             case "Ăn uống":
                 return "🍔";
             case "Mua sắm":
@@ -87,7 +87,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             case "Hóa đơn":
                 return "💡";
 
-            // Thu nhập
+
             case "Lương":
                 return "💵";
             case "Thưởng":
@@ -95,7 +95,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             case "Đầu tư":
                 return "📈";
 
-            // Mặc định
+
             case "Khác":
                 return "📦";
             default:
