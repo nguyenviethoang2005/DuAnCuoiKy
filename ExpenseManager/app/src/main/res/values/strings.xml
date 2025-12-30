@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ExpenseManager</string>
+
+    <string name="stat_income">Tổng thu nhập: %1$d ₫</string>
+    <string name="stat_expense">Tổng chi tiêu: %1$d ₫</string>
+    <string name="stat_balance">Số dư: %1$d ₫</string>
+
+
+</resources>

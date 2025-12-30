@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <!-- Tổng chi tiêu -->
+    <TextView
+        android:id="@+id/tvStatExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng chi tiêu: 0 ₫"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#E53935"
+        android:padding="8dp" />
+
+    <!-- Tổng thu nhập -->
+    <TextView
+        android:id="@+id/tvStatIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng thu nhập: 0 ₫"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#43A047"
+        android:padding="8dp" />
+
+    <!-- Số dư -->
+    <TextView
+        android:id="@+id/tvStatBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Số dư: 0 ₫"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#1E88E5"
+        android:padding="8dp" />
+
+    <!-- PieChart -->
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
