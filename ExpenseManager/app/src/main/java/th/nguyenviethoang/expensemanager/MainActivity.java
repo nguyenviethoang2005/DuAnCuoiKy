@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHelper = new DatabaseHelper(this);
+        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+        dbHelper = DatabaseHelper.getInstance(this);
 
         tvTotalIncome = findViewById(R.id.tvTotalIncome);
         tvTotalExpense = findViewById(R.id.tvTotalExpense);
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(Transaction transaction) {
-                // ✅ THÊM DIALOG XÁC NHẬN XÓA
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Xác nhận xóa")
                         .setMessage("Bạn có chắc muốn xóa giao dịch này?")

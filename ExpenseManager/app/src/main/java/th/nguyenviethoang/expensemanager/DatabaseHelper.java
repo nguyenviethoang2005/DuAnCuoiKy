@@ -22,7 +22,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_NOTE = "note";
     private static final String COL_DATE = "date";
 
-    public DatabaseHelper(Context context) {
+    // ✅ SINGLETON PATTERN
+    private static DatabaseHelper instance;
+
+    public static synchronized DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -57,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COL_DATE, date);
             return db.insert(TABLE_TRANSACTION, null, values);
         } finally {
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (db != null) db.close();
         }
     }
 
@@ -84,8 +94,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } finally {
-            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
         }
 
         return list;
@@ -117,8 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 t.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)));
             }
         } finally {
-            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
         }
 
         return t;
@@ -131,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db = this.getWritableDatabase();
             db.delete(TABLE_TRANSACTION, COL_ID + "=?", new String[]{String.valueOf(id)});
         } finally {
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (db != null) db.close();
         }
     }
 
@@ -148,8 +158,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     new String[]{type});
             if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
         } finally {
-            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
         }
 
         return total;
@@ -164,45 +174,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             db = this.getReadableDatabase();
             cursor = db.rawQuery(
-                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " LIKE ?",
+                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION +
+                            " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " LIKE ?",
                     new String[]{type, date + "%"});
             if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
         } finally {
-            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
-            if (db != null) db.close(); // ✅ ĐÓNG DB
-        }
-
-        return total;
-    }
-
-    // ===== TOTAL BY TYPE AND LIST OF DATES =====
-    public double getTotalByTypeAndDates(String type, List<String> dates) {
-        double total = 0;
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-
-        if (dates.isEmpty()) return 0;
-
-        try {
-            db = this.getReadableDatabase();
-
-            StringBuilder placeholders = new StringBuilder();
-            String[] args = new String[dates.size() + 1];
-            args[0] = type;
-            for (int i = 0; i < dates.size(); i++) {
-                placeholders.append("?");
-                if (i != dates.size() - 1) placeholders.append(",");
-                args[i + 1] = dates.get(i);
-            }
-
-            cursor = db.rawQuery(
-                    "SELECT SUM(" + COL_AMOUNT + ") FROM " + TABLE_TRANSACTION + " WHERE " + COL_TYPE + "=? AND " + COL_DATE + " IN (" + placeholders + ")",
-                    args
-            );
-            if (cursor.moveToFirst()) total = cursor.isNull(0) ? 0 : cursor.getDouble(0);
-        } finally {
-            if (cursor != null) cursor.close(); // ✅ ĐÓNG CURSOR
-            if (db != null) db.close(); // ✅ ĐÓNG DB
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
         }
 
         return total;

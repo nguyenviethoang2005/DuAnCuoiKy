@@ -1,6 +1,7 @@
 package th.nguyenviethoang.expensemanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.tvIcon.setText(c.getIcon());
 
         holder.itemView.setOnClickListener(v -> {
-            // ĐÓNG CategoriesActivity
-            activity.finish();
+            // ✅ TẠO ACTIVITY MỚI ĐỂ HIỂN THỊ GIAO DỊCH THEO DANH MỤC
+            Intent intent = new Intent(activity, CategoryTransactionsActivity.class);
+            intent.putExtra("category_name", c.getName());
+            activity.startActivity(intent);
         });
     }
 

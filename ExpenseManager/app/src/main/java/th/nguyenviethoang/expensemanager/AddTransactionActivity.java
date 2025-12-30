@@ -29,7 +29,8 @@ public class AddTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
 
-        dbHelper = new DatabaseHelper(this);
+        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+        dbHelper = DatabaseHelper.getInstance(this);
         calendar = Calendar.getInstance();
 
         etAmount = findViewById(R.id.etAmount);
@@ -106,7 +107,6 @@ public class AddTransactionActivity extends AppCompatActivity {
         String date = etDate.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString();
 
-        // ✅ VALIDATION
         if (amountStr.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập số tiền", Toast.LENGTH_SHORT).show();
             return;
@@ -117,7 +117,6 @@ public class AddTransactionActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ TRY-CATCH XỬ LÝ LỖI PARSE
         double amount;
         try {
             amount = Double.parseDouble(amountStr);

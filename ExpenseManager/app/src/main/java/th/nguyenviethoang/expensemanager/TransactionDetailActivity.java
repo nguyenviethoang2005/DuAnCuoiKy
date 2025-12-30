@@ -21,7 +21,10 @@ public class TransactionDetailActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDate);
         tvNote = findViewById(R.id.tvNote);
 
-        dbHelper = new DatabaseHelper(this);
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
+        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+        dbHelper = DatabaseHelper.getInstance(this);
 
         int transactionId = getIntent().getIntExtra("transaction_id", -1);
 

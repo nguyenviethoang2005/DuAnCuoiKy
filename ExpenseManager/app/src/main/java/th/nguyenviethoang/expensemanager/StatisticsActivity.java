@@ -32,10 +32,11 @@ public class StatisticsActivity extends AppCompatActivity {
         tvStatBalance = findViewById(R.id.tvStatBalance);
         pieChart      = findViewById(R.id.pieChart);
 
-        // ✅ THÊM NÚT BACK
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        // ✅ SỬA: Dùng getInstance() thay vì new DatabaseHelper()
+        dbHelper = DatabaseHelper.getInstance(this);
 
-        dbHelper = new DatabaseHelper(this);
+        // Nút Back
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         loadStatistics();
     }
@@ -51,7 +52,7 @@ public class StatisticsActivity extends AppCompatActivity {
         tvStatIncome.setText("Thu nhập: " + nf.format(totalIncome) + " đ");
         tvStatBalance.setText("Số dư: " + nf.format(balance) + " đ");
 
-        // ✅ SET MÀU CHO SỐ DƯ
+        // Set màu cho số dư
         if (balance < 0) {
             tvStatBalance.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
         } else {
@@ -64,7 +65,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private void setupPieChart(double expense, double income) {
         List<PieEntry> entries = new ArrayList<>();
 
-        // ✅ CHỈ THÊM NẾU CÓ GIÁ TRỊ
+        // Chỉ thêm nếu có giá trị
         if (expense > 0) entries.add(new PieEntry((float) expense, "Chi tiêu"));
         if (income > 0) entries.add(new PieEntry((float) income, "Thu nhập"));
 
